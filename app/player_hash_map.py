@@ -60,3 +60,18 @@ class PlayerHashMap:
 
         #Return the Player rather than its linked_list node.
         return player_node.player
+
+    def __delitem__(self, key: str) -> None:
+        # Find the PlayerList where the player should be stored.
+        index = self.get_index(key)
+        player_list = self.hashmap[index]
+
+        # Attempt to remove the player from that list.
+        removed_node = player_list.delete_by_key(key)
+
+        # Raise an error when the player does not exist.
+        if removed_node is None:
+            raise KeyError(key)
+
+        # Update the number of players in the hashmap.
+        self.__size -= 1
