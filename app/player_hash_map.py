@@ -79,3 +79,18 @@ class PlayerHashMap:
     def __len__(self) -> int:
         #Return the number of players stored in the hashmaps
         return self.__size
+
+    def display(self) -> None:
+        #Visit every bucket and keep track of its index
+        for index, player_list in enumerate(self.hashmap):
+            #only display PlayerLists that contain players.
+            if not player_list.is_empty:
+                print(f"Index {index}:")
+
+                #start at the head of the collision list
+                current_node = player_list.head
+
+                #print every player stored in this bucket
+                while current_node is not None:
+                    print(current_node.player)
+                    current_node = current_node.next
