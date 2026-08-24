@@ -75,3 +75,7 @@ class PlayerHashMap:
 
         # Update the number of players in the hashmap.
         self.__size -= 1
+
+    def __len__(self) -> int:
+        #Return the number of players stored in the hashmaps
+        return self.__size
