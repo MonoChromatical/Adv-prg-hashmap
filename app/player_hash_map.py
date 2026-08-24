@@ -23,3 +23,25 @@ class PlayerHashMap:
         #Convert the hash into a valid index from 0 to 9
         return player_hash % self.SIZE
 
+    def __setitem__(self, key: str, name: str) -> None:
+        # Find the PlayerList where this player belongs.
+        index = self.get_index(key)
+        player_list = self.hashmap[index]
+
+        # Check whether the player is already in that list.
+        existing_node = player_list.find_by_key(key)
+
+        if existing_node is not None:
+            # Update the existing player's name without adding a duplicate.
+            existing_node.player.player_name = name
+            return
+
+        # Create a new player and wrap it inside a linked-list node.
+        new_player = Player(key, name)
+        new_node = PlayerNode(new_player)
+
+        # Add the node to the selected collision list.
+        player_list.insert_at_tail(new_node)
+
+        # Count the newly added player.
+        self.__size += 1
