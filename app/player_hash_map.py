@@ -45,3 +45,18 @@ class PlayerHashMap:
 
         # Count the newly added player.
         self.__size += 1
+
+    def __getitem__(self, key: str) -> Player:
+        #Find the PlayerList where the player should be stored
+        index = self.get_index(key)
+        player_list = self.hashmap[index]
+
+        #search the selected list for the requested key
+        player_node = player_list.find_by_key(key)
+
+        #Raise an error when the player does not exist
+        if player_node is None:
+            raise KeyError(key)
+
+        #Return the Player rather than its linked_list node.
+        return player_node.player
