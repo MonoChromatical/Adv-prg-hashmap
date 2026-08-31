@@ -31,6 +31,12 @@ class Player:
         # Update the player's name.
         self.__player_name = new_name
 
+    def __lt__(self, other):
+        if not isinstance(other, Player):
+            return NotImplemented
+
+        return self.score < other.score
+
     @property
     def score(self):
         # Return the player's score.
@@ -39,8 +45,8 @@ class Player:
     @score.setter
     def score(self, new_score):
         # Score must be a positive integer.
-        if not isinstance(new_score, int) or new_score <= 0:
-            raise ValueError("Score must be a positive integer.")
+        if not isinstance(new_score, int) or new_score < 0:
+            raise ValueError("Score must be a non-negative integer.")
 
         self.__score = new_score
 

@@ -3,6 +3,7 @@ import unittest
 from app.player import Player
 from app.player_node import PlayerNode
 from app.player_list import PlayerList
+from app.sleep_sort import sleep_sort
 
 
 class TestPlayer(unittest.TestCase):
@@ -108,6 +109,60 @@ class TestPlayer(unittest.TestCase):
         self.assertIs(last_node.previous, first_node)
         self.assertIsNone(removed_node.previous)
         self.assertIsNone(removed_node.next)
+
+    def test_sort_players(self):
+        players = [
+            Player("01", "Alice", score=10),
+            Player("02", "Bob", score=5),
+            Player("03", "Charlie", score=15)
+        ]
+
+        sorted_players = sorted(players)
+
+        manually_sorted_players = [
+            Player("02", "Bob", score=5),
+            Player("01", "Alice", score=10),
+            Player("03", "Charlie", score=15)
+        ]
+
+        self.assertListEqual(sorted_players, manually_sorted_players)
+
+    def test_players_can_be_compared_by_score(self):
+        alice = Player("01", "Alice", score=10)
+        bob = Player("02", "Bob", score=5)
+
+        self.assertGreater(alice, bob)
+
+    def test_sleep_sort_players(self):
+        players = [
+            Player("01", "Alice", score=10),
+            Player("02", "Bob", score=5),
+            Player("03", "Charlie", score=15)
+        ]
+
+        sorted_players = sleep_sort(players)
+
+        self.assertEqual(sorted_players[0].player_name, "Bob")
+        self.assertEqual(sorted_players[1].player_name, "Alice")
+        self.assertEqual(sorted_players[2].player_name, "Charlie")
+
+    def test_sleep_sort_empty_list(self):
+        players = []
+
+        sorted_players = sleep_sort(players)
+
+        self.assertEqual(sorted_players, [])
+
+    def test_sleep_sort_single_player(self):
+        players = [
+            Player("01", "Alice", score=10)
+        ]
+
+        sorted_players = sleep_sort(players)
+
+        self.assertEqual(sorted_players, players)
+
+
 
 if __name__ == '__main__':
     unittest.main()
